@@ -610,6 +610,32 @@ Social Icons
 <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()">Delete</button>
 </div>
 </div>
+
+<div class="affiliate-card">
+<div class="card-title">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+Tools for Creators
+</div>
+<p class="affiliate-desc">Recommended tools to help you grow your audience and monetize your content</p>
+<div class="affiliate-list">
+<div class="affiliate-item">
+<div class="aff-info"><strong>Need a website?</strong> — Hostinger (from $2.99/mo)</div>
+<a href="https://hostinger.com" rel="nofollow sponsored" target="_blank" class="aff-link">Learn more &rarr;</a>
+</div>
+<div class="affiliate-item">
+<div class="aff-info"><strong>Sell digital products</strong> — Gumroad</div>
+<a href="https://gumroad.com" rel="nofollow sponsored" target="_blank" class="aff-link">Learn more &rarr;</a>
+</div>
+<div class="affiliate-item">
+<div class="aff-info"><strong>Email your audience</strong> — Beehiiv (free)</div>
+<a href="https://beehiiv.com" rel="nofollow sponsored" target="_blank" class="aff-link">Learn more &rarr;</a>
+</div>
+<div class="affiliate-item">
+<div class="aff-info"><strong>Design graphics</strong> — Canva (free)</div>
+<a href="https://canva.com" rel="nofollow sponsored" target="_blank" class="aff-link">Learn more &rarr;</a>
+</div>
+</div>
+</div>
 </div>
 
 </div>
@@ -655,6 +681,20 @@ const FONTS = [
 
 let currentUser = null;
 let nextLinkId = 1;
+
+// ---- NEWSLETTER ----
+function handleNewsletterSubscribe(e) {
+  e.preventDefault();
+  const email = document.getElementById('newsletterEmail').value.trim();
+  if (!email) return;
+  const subs = JSON.parse(localStorage.getItem('linkbolt_subscribers') || '[]');
+  if (!subs.includes(email)) {
+    subs.push(email);
+    localStorage.setItem('linkbolt_subscribers', JSON.stringify(subs));
+  }
+  document.getElementById('newsletterEmail').value = '';
+  showToast('Thanks for subscribing!', 'success');
+}
 
 // ---- INIT ----
 function init() {
