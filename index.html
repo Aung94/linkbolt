@@ -1206,6 +1206,14 @@
         </div>
     </section>
 
+    <!-- ============ AD BETWEEN SECTIONS ============ -->
+    <div class="ad-section">
+        <div class="container">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2850355877461307" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
     <!-- ============ EVERYTHING IS FREE ============ -->
     <section class="pricing" id="pricing">
         <div class="container">
@@ -1232,6 +1240,27 @@
                     <a href="/app.html" class="pricing-btn filled">Create Your Free Page</a>
                     <p style="margin-top: 24px; font-size: 0.92rem; color: var(--text-secondary); line-height: 1.65; font-style: italic;">Why we're free: We believe everyone deserves a beautiful link page. No paywalls, no premium gates &mdash; just great tools for every creator.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ AFFILIATE TRUST BAR ============ -->
+    <section class="affiliate-trust">
+        <div class="container">
+            <p class="affiliate-trust-label">Trusted by creators who also use</p>
+            <div class="affiliate-trust-grid">
+                <a href="https://hostinger.com" rel="nofollow sponsored" target="_blank" class="affiliate-trust-item">
+                    <span class="aff-icon">&#127760;</span> Hostinger
+                </a>
+                <a href="https://gumroad.com" rel="nofollow sponsored" target="_blank" class="affiliate-trust-item">
+                    <span class="aff-icon">&#128176;</span> Gumroad
+                </a>
+                <a href="https://canva.com" rel="nofollow sponsored" target="_blank" class="affiliate-trust-item">
+                    <span class="aff-icon">&#127912;</span> Canva
+                </a>
+                <a href="https://beehiiv.com" rel="nofollow sponsored" target="_blank" class="affiliate-trust-item">
+                    <span class="aff-icon">&#9993;</span> Beehiiv
+                </a>
             </div>
         </div>
     </section>
@@ -1290,9 +1319,22 @@
                 <p>Join thousands of creators who trust LinkBolt to power their online presence. Set up in seconds, free forever.</p>
                 <a href="/app.html" class="btn-primary">Create Your Free Page &rarr;</a>
                 <div class="cta-note">No credit card required &middot; Free forever &middot; Setup in 30 seconds</div>
+                <form class="cta-email-form" onsubmit="handleCtaSubscribe(event)">
+                    <input type="email" id="ctaEmail" placeholder="Get creator tips & updates" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+                <div class="cta-email-msg" id="ctaEmailMsg">Thanks for subscribing! Check your inbox soon.</div>
             </div>
         </div>
     </section>
+
+    <!-- ============ AD ABOVE FOOTER ============ -->
+    <div class="ad-section">
+        <div class="container">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2850355877461307" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
 
     <!-- ============ FOOTER ============ -->
     <footer class="footer">
@@ -1378,6 +1420,21 @@
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
         revealElements.forEach(el => revealObserver.observe(el));
+
+        // CTA email subscribe
+        function handleCtaSubscribe(e) {
+            e.preventDefault();
+            const email = document.getElementById('ctaEmail').value.trim();
+            if (!email) return;
+            const subs = JSON.parse(localStorage.getItem('linkbolt_subscribers') || '[]');
+            if (!subs.includes(email)) {
+                subs.push(email);
+                localStorage.setItem('linkbolt_subscribers', JSON.stringify(subs));
+            }
+            document.getElementById('ctaEmail').value = '';
+            document.getElementById('ctaEmailMsg').classList.add('show');
+            setTimeout(() => document.getElementById('ctaEmailMsg').classList.remove('show'), 4000);
+        }
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
