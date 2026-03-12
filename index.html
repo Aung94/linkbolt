@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkBolt — One Link. All Your Content. | Free Link-in-Bio Tool</title>
+    <meta name="description" content="Create a beautiful link-in-bio page in seconds. The best Linktree alternative with unlimited links, custom themes, and click analytics. Free forever.">
+    <meta name="keywords" content="link in bio, linktree alternative, link in bio tool, bio link, instagram link, tiktok link, one link, link page, social media links">
+    <meta name="author" content="LinkBolt">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://linkbolt.io/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://linkbolt.io/">
+    <meta property="og:title" content="LinkBolt — One Link. All Your Content.">
+    <meta property="og:description" content="Create a beautiful link-in-bio page in seconds. Share everything that matters with a single link. The best free Linktree alternative.">
+    <meta property="og:image" content="https://linkbolt.io/og-image.png">
+    <meta property="og:site_name" content="LinkBolt">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LinkBolt — One Link. All Your Content.">
+    <meta name="twitter:description" content="Create a beautiful link-in-bio page in seconds. Share everything that matters with a single link.">
+    <meta name="twitter:image" content="https://linkbolt.io/og-image.png">
+
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2850355877461307" crossorigin="anonymous"></script>
+
+    <!-- Favicon (inline SVG) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <style>
+        /* ========== RESET & BASE ========== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a26;
+            --bg-card-hover: #22222f;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6b6b80;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-pink: #ec4899;
+            --gradient-main: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #06b6d4 100%);
+            --gradient-hero: linear-gradient(135deg, #1a0533 0%, #0d1b3e 40%, #0a1628 100%);
+            --gradient-card: linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(59,130,246,0.08) 100%);
+            --border-color: rgba(255,255,255,0.06);
+            --border-glow: rgba(139,92,246,0.3);
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-glow: 0 0 60px rgba(139,92,246,0.15);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(139,92,246,0.3); }
+            50% { box-shadow: 0 0 40px rgba(139,92,246,0.5); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(10,10,15,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 0;
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.02em;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-main);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-cta {
+            background: var(--gradient-main);
+            color: #fff !important;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(139,92,246,0.4);
+        }
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .mobile-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            background: var(--gradient-hero);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-content { animation: fadeUp 0.8s ease forwards; }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(139,92,246,0.12);
+            border: 1px solid rgba(139,92,246,0.25);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin-bottom: 24px;
+        }
+        .hero-badge span { font-size: 0.75rem; }
+        .hero h1 {
+            font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+        .hero h1 .gradient-text {
+            background: var(--gradient-main);
+            background-size: 200% 200%;
+            animation: gradient-shift 4s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 36px;
+            max-width: 500px;
+        }
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gradient-main);
+            color: #fff;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(139,92,246,0.4);
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 16px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+        }
+        .hero-stat strong {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .hero-stat span {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Phone mockup */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            animation: fadeUp 0.8s ease 0.2s both;
+        }
+        .phone-mockup {
+            width: 300px;
+            background: var(--bg-card);
+            border-radius: 36px;
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.08);
+            box-shadow: var(--shadow-glow), 0 20px 60px rgba(0,0,0,0.5);
+            animation: float 6s ease-in-out infinite;
+        }
+        .phone-screen {
+            background: var(--bg-secondary);
+            border-radius: 26px;
+            padding: 32px 20px;
+            min-height: 480px;
+        }
+        .mock-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--gradient-main);
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .mock-name {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+        }
+        .mock-bio {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            margin-bottom: 24px;
+        }
+        .mock-link {
+            display: block;
+            padding: 14px 16px;
+            background: rgba(139,92,246,0.1);
+            border: 1px solid rgba(139,92,246,0.2);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        .mock-link:nth-child(2) {
+            background: rgba(59,130,246,0.1);
+            border-color: rgba(59,130,246,0.2);
+        }
+        .mock-link:nth-child(3) {
+            background: rgba(236,72,153,0.1);
+            border-color: rgba(236,72,153,0.2);
+        }
+        .mock-link:nth-child(4) {
+            background: rgba(6,182,212,0.1);
+            border-color: rgba(6,182,212,0.2);
+        }
+        .mock-socials {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .mock-social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ========== SOCIAL PROOF BAR ========== */
+        .social-proof-bar {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 40px 0;
+        }
+        .social-proof-bar .container {
+            text-align: center;
+        }
+        .social-proof-bar p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .avatar-stack {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .avatar-bubble {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-secondary);
+            margin-left: -10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .avatar-bubble:first-child { margin-left: 0; }
+        .avatar-bubble:nth-child(1) { background: #8b5cf6; }
+        .avatar-bubble:nth-child(2) { background: #3b82f6; }
+        .avatar-bubble:nth-child(3) { background: #ec4899; }
+        .avatar-bubble:nth-child(4) { background: #06b6d4; }
+        .avatar-bubble:nth-child(5) { background: #f59e0b; }
+        .avatar-bubble.more {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .social-proof-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .social-proof-text span {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ========== FEATURES ========== */
+        .features {
+            padding: 100px 0;
+            position: relative;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        .section-label {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-purple);
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+        .section-sub {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .feature-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-4px);
+            background: var(--bg-card-hover);
+        }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+        .feature-icon.purple { background: rgba(139,92,246,0.15); }
+        .feature-icon.blue { background: rgba(59,130,246,0.15); }
+        .feature-icon.pink { background: rgba(236,72,153,0.15); }
+        .feature-icon.cyan { background: rgba(6,182,212,0.15); }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        /* ========== HOW IT WORKS ========== */
+        .how-it-works {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .step {
+            text-align: center;
+            padding: 20px;
+        }
+        .step-number {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--gradient-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0 auto 20px;
+            color: #fff;
+        }
+        .step h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ========== PRICING ========== */
+        .pricing {
+            padding: 100px 0;
+            position: relative;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+        }
+        .pricing-card.featured {
+            border-color: var(--accent-purple);
+            background: linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(59,130,246,0.05) 100%);
+            animation: pulse-glow 3s ease infinite;
+        }
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-main);
+            color: #fff;
+            padding: 4px 18px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .pricing-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .pricing-price {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 4px;
+        }
+        .pricing-price .period {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .pricing-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 28px;
+        }
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .pricing-features li .check {
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .pricing-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pricing-btn.outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        .pricing-btn.outline:hover {
+            border-color: var(--text-muted);
+        }
+        .pricing-btn.filled {
+            background: var(--gradient-main);
+            color: #fff;
+        }
+        .pricing-btn.filled:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(139,92,246,0.4);
+        }
+
+        /* ========== TESTIMONIALS ========== */
+        .testimonials {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: all 0.3s;
+        }
+        .testimonial-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+        }
+        .testimonial-stars {
+            color: #f59e0b;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+        .testimonial-text {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+        .testimonial-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .testimonial-handle {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ========== CTA ========== */
+        .cta-section {
+            padding: 100px 0;
+            position: relative;
+        }
+        .cta-box {
+            background: var(--gradient-hero);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 72px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-box h2 {
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            position: relative;
+        }
+        .cta-box p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 36px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        .cta-box .btn-primary { position: relative; }
+        .cta-note {
+            margin-top: 16px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            padding: 60px 0 32px;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo { margin-bottom: 16px; }
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            max-width: 280px;
+        }
+        .footer-col h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 12px; }
+        .footer-col a {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+        .footer-col a:hover { color: var(--text-primary); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-bottom p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .footer-social {
+            display: flex;
+            gap: 16px;
+        }
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
+        .footer-social a:hover {
+            border-color: var(--accent-purple);
+            color: var(--text-primary);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .hero .container { grid-template-columns: 1fr; text-align: center; }
+            .hero-sub { margin: 0 auto 36px; }
+            .hero-actions { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .hero-visual { margin-top: 40px; }
+            .features-grid { grid-template-columns: 1fr; max-width: 540px; margin: 0 auto; }
+            .testimonials-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-toggle { display: flex; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10,10,15,0.95);
+                backdrop-filter: blur(20px);
+                padding: 24px;
+                border-bottom: 1px solid var(--border-color);
+                gap: 20px;
+            }
+            .hero { padding: 100px 0 60px; min-height: auto; }
+            .hero h1 { font-size: 2.4rem; }
+            .hero-stats { gap: 24px; }
+            .steps { grid-template-columns: 1fr; gap: 28px; }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+            .phone-mockup { width: 260px; }
+        }
+        @media (max-width: 480px) {
+            .hero-actions { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <div class="logo-icon">&#9889;</div>
+                LinkBolt
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="/app.html" class="nav-cta">Get Started Free</a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>&#9889;</span> Now in public beta &mdash; free for everyone
+                </div>
+                <h1>One Link.<br><span class="gradient-text">All Your Content.</span></h1>
+                <p class="hero-sub">Create a beautiful link-in-bio page in seconds. Share everything that matters with a single link.</p>
+                <div class="hero-actions">
+                    <a href="/app.html" class="btn-primary">Create Your Free Page &rarr;</a>
+                    <a href="#features" class="btn-secondary">See how it works</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <strong>1,200+</strong>
+                        <span>Active creators</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>50K+</strong>
+                        <span>Links clicked</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>4.9/5</strong>
+                        <span>User rating</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="mock-avatar">JD</div>
+                        <div class="mock-name">@janedoe</div>
+                        <div class="mock-bio">Creator, designer &amp; coffee addict</div>
+                        <div class="mock-link">&#127912; My Portfolio</div>
+                        <div class="mock-link">&#127909; Latest YouTube Video</div>
+                        <div class="mock-link">&#128722; Shop My Merch</div>
+                        <div class="mock-link">&#9749; Buy Me a Coffee</div>
+                        <div class="mock-socials">
+                            <div class="mock-social-icon">&#120143;</div>
+                            <div class="mock-social-icon">&#9679;</div>
+                            <div class="mock-social-icon">&#9654;</div>
+                            <div class="mock-social-icon">&#9830;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SOCIAL PROOF BAR ============ -->
+    <section class="social-proof-bar">
+        <div class="container">
+            <div class="avatar-stack">
+                <div class="avatar-bubble">A</div>
+                <div class="avatar-bubble">K</div>
+                <div class="avatar-bubble">M</div>
+                <div class="avatar-bubble">R</div>
+                <div class="avatar-bubble">S</div>
+                <div class="avatar-bubble more">+1K</div>
+            </div>
+            <p class="social-proof-text">Join <span>1,000+ creators</span> already using LinkBolt</p>
+        </div>
+    </section>
+
+    <!-- ============ FEATURES ============ -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Features</div>
+                <h2 class="section-title">Everything you need,<br>nothing you don't</h2>
+                <p class="section-sub">Simple, powerful tools to share your content with the world. No bloat, no complexity.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon purple">&#128279;</div>
+                    <h3>Unlimited Links</h3>
+                    <p>Add as many links as you want. No limits, no paywalls on your content. Share your entire world from a single page &mdash; blogs, videos, music, stores, and more.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon blue">&#127912;</div>
+                    <h3>Custom Themes &amp; Colors</h3>
+                    <p>Make your page truly yours. Choose from beautiful pre-built themes or create a custom look with your brand colors, fonts, and styles. Stand out from the crowd.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon pink">&#128200;</div>
+                    <h3>Click Analytics</h3>
+                    <p>Know exactly what your audience cares about. Track clicks, views, and engagement in real-time. Make data-driven decisions to grow your following faster.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon cyan">&#127758;</div>
+                    <h3>Works Everywhere</h3>
+                    <p>One link for Instagram, TikTok, Twitter, YouTube, and anywhere else. Your LinkBolt page looks perfect on every device, every platform, every time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">How it works</div>
+                <h2 class="section-title">Live in 30 seconds</h2>
+                <p class="section-sub">Setting up your link page is faster than making a cup of coffee.</p>
+            </div>
+            <div class="steps">
+                <div class="step reveal">
+                    <div class="step-number">1</div>
+                    <h3>Claim your link</h3>
+                    <p>Pick your unique username and get your linkbolt.io/you link instantly. No email required to start.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-number">2</div>
+                    <h3>Add your content</h3>
+                    <p>Drop in links, social profiles, videos, music, and anything else you want your audience to see.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-number">3</div>
+                    <h3>Share everywhere</h3>
+                    <p>Add your LinkBolt link to your Instagram bio, TikTok profile, Twitter, and anywhere else. Done.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PRICING ============ -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Pricing</div>
+                <h2 class="section-title">Simple, transparent pricing</h2>
+                <p class="section-sub">Start free. Upgrade when you need more power.</p>
+            </div>
+            <div class="pricing-grid">
+                <!-- Free -->
+                <div class="pricing-card reveal">
+                    <h3>Free</h3>
+                    <div class="pricing-price">$0</div>
+                    <p class="pricing-desc">Free forever. No credit card required.</p>
+                    <ul class="pricing-features">
+                        <li><span class="check">&#10003;</span> Unlimited links</li>
+                        <li><span class="check">&#10003;</span> 5 beautiful themes</li>
+                        <li><span class="check">&#10003;</span> Mobile-optimized page</li>
+                        <li><span class="check">&#10003;</span> Basic link management</li>
+                        <li><span class="check">&#10003;</span> LinkBolt branding</li>
+                    </ul>
+                    <a href="/app.html" class="pricing-btn outline">Get Started Free</a>
+                </div>
+                <!-- Pro -->
+                <div class="pricing-card featured reveal">
+                    <div class="pricing-badge">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="pricing-price">$5<span class="period">/mo</span></div>
+                    <p class="pricing-desc">Everything you need to grow your brand.</p>
+                    <ul class="pricing-features">
+                        <li><span class="check">&#10003;</span> Everything in Free</li>
+                        <li><span class="check">&#10003;</span> Unlimited custom themes</li>
+                        <li><span class="check">&#10003;</span> Detailed click analytics</li>
+                        <li><span class="check">&#10003;</span> No LinkBolt branding</li>
+                        <li><span class="check">&#10003;</span> Social media icons</li>
+                        <li><span class="check">&#10003;</span> Priority support</li>
+                        <li><span class="check">&#10003;</span> Custom fonts &amp; colors</li>
+                    </ul>
+                    <a href="/app.html" class="pricing-btn filled">Start Free Trial</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Testimonials</div>
+                <h2 class="section-title">Loved by creators</h2>
+                <p class="section-sub">See why thousands of creators are switching to LinkBolt.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"Switched from Linktree to LinkBolt and my click-through rate jumped 40%. The custom themes make my page actually look professional."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background:#8b5cf6;">S</div>
+                        <div>
+                            <div class="testimonial-name">Sarah Chen</div>
+                            <div class="testimonial-handle">@sarahcreates &middot; 45K followers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"The analytics alone are worth it. I can finally see which links my audience actually cares about. Game changer for my content strategy."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background:#3b82f6;">M</div>
+                        <div>
+                            <div class="testimonial-name">Marcus Rivera</div>
+                            <div class="testimonial-handle">@marcusfit &middot; 120K followers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-text">"Setup took literally 30 seconds. I love that it's free and doesn't look cheap. My fans always compliment my link page now."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background:#ec4899;">A</div>
+                        <div>
+                            <div class="testimonial-name">Aisha Patel</div>
+                            <div class="testimonial-handle">@aishamusic &middot; 80K followers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box reveal">
+                <h2>Ready to level up your bio link?</h2>
+                <p>Join thousands of creators who trust LinkBolt to power their online presence. Set up in seconds, free forever.</p>
+                <a href="/app.html" class="btn-primary">Create Your Free Page &rarr;</a>
+                <div class="cta-note">No credit card required &middot; Free forever &middot; Setup in 30 seconds</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">&#9889;</div>
+                        LinkBolt
+                    </a>
+                    <p>The simplest way to share everything you create, curate, and sell from your social media profiles.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="/app.html">Get Started</a></li>
+                        <li><a href="#">Templates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Creator Guide</a></li>
+                        <li><a href="#">API Docs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 LinkBolt. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Twitter">&#120143;</a>
+                    <a href="#" aria-label="Instagram">&#9679;</a>
+                    <a href="#" aria-label="TikTok">&#9834;</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Close mobile menu on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('open'));
+        });
+
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 80);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "LinkBolt",
+        "applicationCategory": "SocialNetworkingApplication",
+        "description": "Create a beautiful link-in-bio page in seconds. The best free Linktree alternative with unlimited links, custom themes, and click analytics.",
+        "operatingSystem": "Web",
+        "offers": [
+            {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "name": "Free"
+            },
+            {
+                "@type": "Offer",
+                "price": "5",
+                "priceCurrency": "USD",
+                "name": "Pro",
+                "billingIncrement": "P1M"
+            }
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "1200"
+        }
+    }
+    </script>
+</body>
+</html>
